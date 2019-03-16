@@ -19,6 +19,12 @@ import (
 	"github.com/stretchr/gomniauth/providers/google"
 )
 
+//現在アクティブなAvatarの実装
+var avatars Avatar = TryAvatars{
+	UseFileSystemAvatar,
+	UserAuthAvatar,
+	UseGravatar}
+
 //temp1は１つのテンプレートを表します
 type templateHandler struct {
 	once     sync.Once
@@ -50,7 +56,7 @@ func main() {
 		github.New("11095562301-6gf18o1mutb0t8v2nacduc4sscq6shkl.apps.googleusercontent.com", "cHpWef3nbDcwGiBjPvr8mw9w", "http://localhost:8080/auth/callback/github"),
 		google.New("11095562301-6gf18o1mutb0t8v2nacduc4sscq6shkl.apps.googleusercontent.com", "cHpWef3nbDcwGiBjPvr8mw9w", "http://localhost:8080/auth/callback/google"),
 	)
-	r := newRoom(UseFileSystemAvatar)
+	r := newRoom()
 	r.tracer = trace.New(os.Stdout)
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/login", &templateHandler{filename: "login.html"})
