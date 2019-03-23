@@ -12,3 +12,5 @@ db/**
 *.DS_Store
 git_user_token.txt
 socialpoll/boot.sh
+votes*
+api/curl.sh
