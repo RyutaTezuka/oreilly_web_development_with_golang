@@ -10,3 +10,5 @@
 # Ignore files for this project
 db/**
 *.DS_Store
+git_user_token.txt
+socialpoll/boot.sh
