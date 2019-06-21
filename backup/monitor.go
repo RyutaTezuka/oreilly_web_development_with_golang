@@ -1,6 +1,7 @@
 package backup
 
 import (
+	"fmt"
 	"path/filepath"
 	"time"
 )
@@ -15,6 +16,8 @@ func (m *Monitor) Now() (int, error) {
 	var counter int
 	for path, lastHash := range m.Paths {
 		newHash, err := DirHash(path)
+		fmt.Println("newHash:", newHash)
+		fmt.Println("path:", path)
 		if err != nil {
 			return 0, err
 		}
@@ -32,6 +35,6 @@ func (m *Monitor) Now() (int, error) {
 
 func (m *Monitor) act(path string) error {
 	dirname := filepath.Base(path)
-	filename := m.Archiver.DestFmt()(time.Now().UnixNano())
+	filename := fmt.Sprintf(m.Archiver.DestFmt(), time.Now().UnixNano())
 	return m.Archiver.Archive(path, filepath.Join(m.Destination, dirname, filename))
 }
